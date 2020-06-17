@@ -39,6 +39,11 @@ def inputStartDay():
     day = int(input('Enter a day: '))
     theday = datetime.date(year, month, day)
     return theday
+def sumOfDeltas(listofdeltas):
+    sum = datetime.timedelta(hours=0)
+    for i in listofdeltas:
+        sum += i
+    return sum
 
 def findGaps(dayofinterest):
     #Sets a lower and upper bound to the freebusy query, in UTC-4:00
@@ -93,10 +98,8 @@ def findGaps(dayofinterest):
         deltaDict[startTimes[n]] = (endTimes[n]-startTimes[n])
 
     deltaDict = {i:deltaDict[i] for i in deltaDict if deltaDict[i] > datetime.timedelta(hours=0)}
-
-    for i in deltaDict: print(i.strftime('%A'), deltaDict[i])
-    print("----------------")
+    return [deltaDict[i] for i in deltaDict]
 
 if __name__ == "__main__":
     for i in range(7):
-        findGaps(theday+datetime.timedelta(days=i))
+        print(findGaps(theday+datetime.timedelta(days=i)))

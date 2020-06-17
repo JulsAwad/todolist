@@ -53,9 +53,9 @@ class task:
     def __init__(self, name, prio, workhours, diff):
         self.name = name
         self.prio = int(prio)
-        self.workhours = int(workhours)
+        self.workhours = datetime.timedelta(hours=workhours).seconds / 3600
         self.diff = int(diff)
-        self.day = 0
+        self.day = theday
         #This is the equation determining the importance based on the input parameters. Subject to change.
         self.importanceIndex = ((a*prio) + ((workhours-2)**2 + 1)*b + ((4/9*(diff-4)**2) + 1)*c)*20
         self.isAssigned = False
@@ -68,26 +68,17 @@ class task:
         "Difficulty:", self.diff,"\n",
         "Duration:", self.workhours,"\n",
         "Importance:",round(self.importanceIndex,1),"%","\n",
-        "Will be done on:", self.day.dayname())
+        "Will be done on:", self.day.dayname)
         if self.overage > 0:
             print("   *"+str(self.overage), "hours over*\n")
 
 class Day:
     #Need to implement actual datetime stuff in here lol
-    def __init__(self, dotw, workhours):
-        self.dotw = int(dotw)
-        self.workhours = int(workhours)
-
-    #Change this disgusting fucking bullshit ugh
-    def dayname(self):
-        if self.dotw == 0: return("Monday")
-        elif self.dotw == 1: return("Tuesday")
-        elif self.dotw == 2: return("Wednesday")
-        elif self.dotw == 3: return("Thursday")
-        elif self.dotw == 4: return("Friday")
-        elif self.dotw == 5: return("Saturday")
-        elif self.dotw == 6: return("Sunday")
-        else: return("No Day")
+    def __init__(self, date, worklist):
+        self.date = date
+        self.worklist = worklist
+        self.workhours = sumOfDeltas(worklist).seconds / 3600
+        self.dayname = date.strftime('%A')
 
 #Adding a New Task
 def newTask():
@@ -111,13 +102,8 @@ if tasklist == []:
 #Create new days
 #This will get removed once calendargaps.py is integrated
 if week == []:
-    print("\n\n----------------")
-    n = 0
-    while n < 7:
-        newDayHours = inputRatingInRange("How many work-hours are available on "+Day(n,0).dayname()+"? ",0,16)
-        newDay = Day(n,newDayHours)
-        week.append(newDay)
-        n += 1
+    for i in range(7):
+        week.append(Day(theday+datetime.timedelta(days=i), findGaps(theday+datetime.timedelta(days=i))))
 
 #Sort entries by Importance and slot them into available work-hours
 tasklist.sort(key=lambda x: x.importanceIndex, reverse=True)
@@ -145,5 +131,3 @@ else:
     for i in tasklist:
         i.printsummary()
     tasksToJSON()
-    for i in range(7):
-        findGaps(theday+datetime.timedelta(days=i))
