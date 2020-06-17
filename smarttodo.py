@@ -100,10 +100,9 @@ if tasklist == []:
         exittasks = input("Exit task entry stage? (y/n): ")
 
 #Create new days
-#This will get removed once calendargaps.py is integrated
 if week == []:
     for i in range(7):
-        week.append(Day(theday+datetime.timedelta(days=i), findGaps(theday+datetime.timedelta(days=i))))
+        week.append(Day(theday+datetime.timedelta(days=i+1), findGaps(theday+datetime.timedelta(days=i+1))))
 
 #Sort entries by Importance and slot them into available work-hours
 tasklist.sort(key=lambda x: x.importanceIndex, reverse=True)
@@ -113,7 +112,6 @@ if sum([i.workhours for i in tasklist]) > sum([i.workhours for i in week]):
     overflow = True #deal with this later
 else:
     #Start fitting tasks in days:
-    #List of tasks not yet assigned
     for eachDay in week:
         workingTaskList = [i for i in tasklist if not(i.isAssigned)]
         if workingTaskList == []:
@@ -130,4 +128,4 @@ else:
     #Print all entries
     for i in tasklist:
         i.printsummary()
-    tasksToJSON()
+    #tasksToJSON() doesn't work with datetime, need to find fix
