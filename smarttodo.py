@@ -40,13 +40,12 @@ def tasksToDict():
     listofdics = [item.__dict__ for item in tasklist]
     for dic in listofdics:
         dic['day'] = dic['day'].__dict__
+        dic['day']['date'] = str(dic['day']['date'])
+        dic['day']['worklist'] = [str(i) for i in dic['day']['worklist']]
     return listofdics
 def tasksToJSON():
     with open('listoftasks.json', mode='w') as file:
         json.dump(tasksToDict(), file, indent=4)
-def daysToJSON():
-    with open('listofdays.json', mode='w') as file:
-        json.dump([i.__dict__ for i in week], file, indent=4)
 
 # Class Setup
 class task:
@@ -128,4 +127,4 @@ else:
     #Print all entries
     for i in tasklist:
         i.printsummary()
-    #tasksToJSON() doesn't work with datetime, need to find fix
+    tasksToJSON()

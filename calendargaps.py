@@ -102,4 +102,4 @@ def findGaps(dayofinterest):
 
 if __name__ == "__main__":
     for i in range(7):
-        print(findGaps(theday+datetime.timedelta(days=i)))
+        print([i.seconds/3600 for i in findGaps(theday+datetime.timedelta(days=i))])
