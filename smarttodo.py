@@ -40,6 +40,8 @@ def tasksToDict():
     listofdics = [item.__dict__ for item in tasklist]
     for dic in listofdics:
         dic['day'] = dic['day'].__dict__
+        dic['day']['date'] = str(dic['day']['date'])
+        dic['day']['worklist'] = [str(i) for i in dic['day']['worklist']]
     return listofdics
 def tasksToJSON():
     with open('listoftasks.json', mode='w') as file:
@@ -128,4 +130,5 @@ else:
     #Print all entries
     for i in tasklist:
         i.printsummary()
-    #tasksToJSON() doesn't work with datetime, need to find fix
+
+    tasksToJSON() #doesn't work with datetime, need to find fix
