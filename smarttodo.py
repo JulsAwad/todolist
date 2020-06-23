@@ -35,6 +35,15 @@ def inputRatingInRange(message,low,high):
             print("----------------")
     return x
 
+#Adding a New Task
+def newTask():
+    name = input("\nTask Name: ")
+    newPrio = inputRatingInRange("Priority (1-5): ",1,5)
+    newDiff = inputRatingInRange("Difficulty (1-5): ",1,5)
+    newworkhours = inputRatingInRange("Duration (1-5 hours): ",1,5)
+    addedTask = Task(name, newPrio, newworkhours, newDiff)
+    tasklist.append(addedTask)
+
 #JSON THINGS
 def tasksToDict():
     listofdics = [item.__dict__ for item in tasklist]
@@ -48,7 +57,7 @@ def tasksToJSON():
         json.dump(tasksToDict(), file, indent=4)
 
 # Class Setup
-class task:
+class Task:
     def __init__(self, name, prio, workhours, diff):
         self.name = name
         self.prio = int(prio)
@@ -79,28 +88,26 @@ class Day:
         self.workhours = sumOfDeltas(worklist).seconds / 3600
         self.dayname = date.strftime('%A')
 
-#Adding a New Task
-def newTask():
-    name = input("\nTask Name: ")
-    newPrio = inputRatingInRange("Priority (1-5): ",1,5)
-    newDiff = inputRatingInRange("Difficulty (1-5): ",1,5)
-    newworkhours = inputRatingInRange("Duration (1-5 hours): ",1,5)
-    addedTask = task(name, newPrio, newworkhours, newDiff)
-    tasklist.append(addedTask)
-
 #--MAIN FLOW OF THE PROGRAM--#
 
-#How to parse JSON from dict into my classes???
+#Parse JSON from dict into task class
+with open('listoftasks.json', mode='r') as file:
+    JSONtasks = json.load(file)
+    if not JSONtasks:
+        tasklist = []
+tasklist = [Task(i['name'], i['prio'], i['workhours'], i['diff']) for i in JSONtasks]
 
 #Create new tasks
-if tasklist == []:
+createNewTasks = input('Create new tasks? (y/n): ')
+if createNewTasks == 'y':
     while exittasks == 'n':
         newTask()
         exittasks = input("Exit task entry stage? (y/n): ")
 
 #Create new days
+#NEED TO FIX SUPPORT FOR CROSS-MONTH RANGES!!
 if week == []:
-    for i in range(7):
+    for i in range(2):
         week.append(Day(theday+datetime.timedelta(days=i+1), findGaps(theday+datetime.timedelta(days=i+1))))
 
 #Sort entries by Importance and slot them into available work-hours
