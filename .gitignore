@@ -1,3 +1,4 @@
 *.pickle
-listofsays.json
+listofdays.json
 listoftasks.json
+credentials.json

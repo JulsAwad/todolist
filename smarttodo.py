@@ -34,7 +34,7 @@ def inputRatingInRange(message,low,high):
             print("\nInvalid input. Please try again.")
             print("----------------")
     return x
-
+ 
 #Adding a New Task
 def newTask():
     name = input("\nTask Name: ")
