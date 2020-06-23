@@ -134,4 +134,9 @@ else:
     #Print all entries
     for i in tasklist:
         i.printsummary()
+<<<<<<< HEAD
     tasksToJSON()
+=======
+
+    tasksToJSON() #doesn't work with datetime, need to find fix
+>>>>>>> db86e87d41513d131a85d21b6e8a9a93ea1cf88f
