@@ -34,7 +34,7 @@ def inputRatingInRange(message,low,high):
             print("\nInvalid input. Please try again.")
             print("----------------")
     return x
- 
+
 #Adding a New Task
 def newTask():
     name = input("\nTask Name: ")
@@ -134,9 +134,4 @@ else:
     #Print all entries
     for i in tasklist:
         i.printsummary()
-<<<<<<< HEAD
     tasksToJSON()
-=======
-
-    tasksToJSON() #doesn't work with datetime, need to find fix
->>>>>>> db86e87d41513d131a85d21b6e8a9a93ea1cf88f
