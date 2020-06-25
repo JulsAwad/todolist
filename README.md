@@ -1,0 +1,3 @@
+This project aims to pull my freebusy data from the Google Calendar API to determine when I have free time. Then, it will take in an input from the user corresponding to the tasks that he/she has to do, and their respective priority, duration, and difficulty. From there, it generates an importance index that is used to organize the to-do list, which will then be slotted into the free time pulled from the Google Calendar API.
+
+The purpose of this project is, aside from creating an efficient task prioritizing system for myself, to learn git and general version control concepts. So, I apologize for some confusing commits and merge requests. I would appreciate any feedback, as I am still learning.
