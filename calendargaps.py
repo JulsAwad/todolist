@@ -31,7 +31,6 @@ if not creds or not creds.valid:
 service = build('calendar', 'v3', credentials=creds)
 
 #MAIN PROGRAM
-theday = datetime.datetime.now()
 def inputStartDay():
     #Make this dumbass-proof
     year = int(input('Enter a year: '))
@@ -44,12 +43,12 @@ def sumOfDeltas(listofdeltas):
     for i in listofdeltas:
         sum += i
     return sum
-
+theday = datetime.datetime.now()
 def findGaps(dayofinterest):
     #Sets a lower and upper bound to the freebusy query, in UTC-4:00
     #Need to implement support for all timezones
     minTime = str(dayofinterest.year).zfill(4)+"-"+str(dayofinterest.month).zfill(2)+"-"+str(dayofinterest.day).zfill(2)+"T08:00:00-04:00"
-    maxTime = str(dayofinterest.year).zfill(4)+"-"+str(dayofinterest.month).zfill(2)+"-"+str(dayofinterest.day+1).zfill(2)+"T00:00:00-04:00"
+    maxTime = str((dayofinterest+datetime.timedelta(days=1)).year).zfill(4)+"-"+str((dayofinterest+datetime.timedelta(days=1)).month).zfill(2)+"-"+str((dayofinterest+datetime.timedelta(days=1)).day).zfill(2)+"T00:00:00-04:00"
 
     #The following 3 lines of code are intended to pull every calendar from the user's account and plug them into the freebusy query. However, I have yet to find a way to make this work.
     calListRaw = service.calendarList().list().execute()['items']
