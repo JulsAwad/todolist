@@ -2,4 +2,4 @@
 listofdays.json
 listoftasks.json
 credentials.json
-__pycache__/
+__pycache__/*
